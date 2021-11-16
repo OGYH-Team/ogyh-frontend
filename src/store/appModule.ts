@@ -1,14 +1,14 @@
-interface appModuleState {
-  navTitle: string
-}
+import { AppModuleState } from './types'
 
 const appModule = {
   namespaced: true,
-  state: (): appModuleState => ({
-    navTitle: ''
-  }),
+  state(): AppModuleState {
+    return {
+      navTitle: ''
+    }
+  },
   mutations: {
-    setNavTitle: (state: appModuleState, payload: { title: string }): void => {
+    setNavTitle: (state: AppModuleState, payload: { title: string }): void => {
       state.navTitle = payload.title
     }
   },

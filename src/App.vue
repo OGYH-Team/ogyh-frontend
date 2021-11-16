@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="flex flex-row">
+  <div id="app">
     <side-nav />
-    <div class="flex flex-col w-full">
+    <div class="body h-screen overflow-hidden">
       <navbar />
       <page-content>
         <router-view></router-view>
@@ -26,4 +26,14 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss"></style>
+<style>
+@layer components {
+  #app {
+    @apply flex flex-row;
+  }
+
+  .body {
+    @apply flex flex-col w-full;
+  }
+}
+</style>

@@ -1,26 +1,14 @@
 <template>
   <header class="w-full">
-    <nav
-      class="
-        bg-white
-        h-20
-        flex
-        items-center
-        justify-between
-        px-6
-        shadow-lg
-        text-purple-700
-      "
-    >
-      <h3 class="text-xl font-semibold">{{ navTitle }}</h3>
-      <!-- <ul class="list-none flex">
-        <li>
-          <a href="#" class="mr-4 hover:text-gray-200 transition-colors"
-            >Dashboard
-          </a>
-        </li>
-        <li><a href="#">Sites</a></li>
-      </ul> -->
+    <nav class="navbar">
+      <font-awesome-icon
+        icon="bars"
+        size="lg"
+        class="cursor-pointer mr-4 lg:hidden md:block"
+      />
+      <h3 class="text-xl font-semibold">
+        {{ navTitle }}
+      </h3>
     </nav>
   </header>
 </template>
@@ -32,9 +20,15 @@ import { mapState } from 'vuex'
 export default Vue.extend({
   name: 'Navbar',
   computed: {
-    ...mapState('appModule', ['navTitle'])
+    ...mapState('app', ['navTitle'])
   }
 })
 </script>
 
-<style></style>
+<style>
+@layer components {
+  .navbar {
+    @apply bg-white h-20 flex items-center px-6 shadow-lg text-purple-700;
+  }
+}
+</style>

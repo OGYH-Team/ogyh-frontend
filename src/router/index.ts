@@ -29,7 +29,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  store.commit('appModule/setNavTitle', { title: to.name })
+  store.commit('app/setNavTitle', { title: to.name })
   next()
 })
 
