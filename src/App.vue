@@ -1,29 +1,29 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <hello-world msg="Welcome to Your Vue.js + TypeScript App" />
+  <div id="app" class="flex flex-row">
+    <side-nav />
+    <div class="flex flex-col w-full">
+      <navbar />
+      <page-content>
+        <router-view></router-view>
+      </page-content>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue'
+import SideNav from '@/components/SideNav.vue'
+import PageContent from '@/components/PageContent.vue'
+import Navbar from './components/Navbar.vue'
 
 export default Vue.extend({
   name: 'App',
   components: {
-    HelloWorld
+    SideNav,
+    PageContent,
+    Navbar
   }
 })
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss"></style>
