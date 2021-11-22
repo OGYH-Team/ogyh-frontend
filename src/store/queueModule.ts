@@ -25,6 +25,9 @@ const queueModule = {
         'https://ogyh-backend.herokuapp.com/api/time_slots'
       )
       commit('setTimeSlots', data.time_slots)
+    },
+    async updateQueueTimeSlots(): Promise<void> {
+      await axios.get('https://ogyh-backend.herokuapp.com/api/update_queue')
     }
   }
 }

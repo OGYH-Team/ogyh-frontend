@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <loader :is-loading="$wait.is('loading')" />
     <side-nav />
     <div class="body h-screen overflow-hidden">
       <navbar />
@@ -15,13 +16,15 @@ import Vue from 'vue'
 import SideNav from '@/components/SideNav.vue'
 import PageContent from '@/components/PageContent.vue'
 import Navbar from './components/Navbar.vue'
+import Loader from '@/components/Loader.vue'
 
 export default Vue.extend({
   name: 'App',
   components: {
     SideNav,
     PageContent,
-    Navbar
+    Navbar,
+    Loader
   }
 })
 </script>

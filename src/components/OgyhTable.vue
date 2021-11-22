@@ -1,40 +1,59 @@
 <template>
-  <table class="table-auto w-full">
-    <thead>
-      <tr class="bg-purple-100 text-purple-700">
-        <template v-if="haveCheckbox">
-          <th class="p-3 px-4 text-center">
-            <input type="checkbox" @input="toggleSelectAll" />
+  <div>
+    <slot name="tableHead" :selectedItemsCount="selectedItemsCount"></slot>
+    <table class="table-auto w-full" id="ogyh-table">
+      <thead>
+        <tr class="bg-purple-100 text-purple-700">
+          <template v-if="haveCheckbox">
+            <th class="text-center">
+              <input
+                type="checkbox"
+                @input="toggleSelectAll"
+                class="
+                  appearance-none
+                  checked:bg-blue-600 checked:border-transparent
+                "
+              />
+            </th>
+          </template>
+          <th
+            v-for="(header, headerIndex) in headers"
+            :key="headerIndex"
+            class="text-left"
+          >
+            {{ header }}
           </th>
-        </template>
-        <th
-          v-for="(header, headerIndex) in headers"
-          :key="headerIndex"
-          class="text-left p-3 px-4"
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(item, itemIndex) in items.slice(0, 10)"
+          :key="itemIndex"
+          :class="getRowColor(itemIndex)"
+          class="font-light text-gray-600"
         >
-          {{ header }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="(item, itemIndex) in items"
-        :key="itemIndex"
-        :class="itemIndex % 2 != 0 ? 'bg-purple-50' : ''"
-      >
-        <template v-if="haveCheckbox && checkboxes.length">
-          <td class="p-3 px-4 text-center">
-            <input
-              type="checkbox"
-              @input="onCheckboxChecked"
-              v-model="checkboxes[itemIndex].isChecked"
-            />
-          </td>
-        </template>
-        <slot name="tableItem" :item="item"></slot>
-      </tr>
-    </tbody>
-  </table>
+          <template v-if="haveCheckbox">
+            <td class="flex items-center justify-center">
+              <input
+                type="checkbox"
+                v-model="selectedItems[itemIndex].isChecked"
+                class="
+                  appearance-none
+                  w-4
+                  h-4
+                  rounded-md
+                  cursor-pointer
+                  border border-gray-400
+                  checked:bg-indigo-700 checked:border-transparent
+                "
+              />
+            </td>
+          </template>
+          <slot name="tableItem" :item="item"></slot>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -47,6 +66,10 @@ export default Vue.extend({
       type: Array,
       required: true
     },
+    itemKey: {
+      type: String,
+      default: 'id'
+    },
     headers: {
       type: Array,
       required: true
@@ -58,26 +81,38 @@ export default Vue.extend({
   },
   data() {
     return {
-      checkboxes: []
+      selectedItems: []
+    }
+  },
+  computed: {
+    selectedItemsCount() {
+      return this.selectedItems.filter((item) => item.isChecked).length
     }
   },
   methods: {
     toggleSelectAll(e) {
-      this.checkboxes = this.checkboxes.map((checkbox) => ({
-        ...checkbox,
+      this.selectedItems = this.selectedItems.map((item) => ({
+        ...item,
         isChecked: e.target.checked
       }))
     },
-    onCheckboxChecked(e) {
-      console.log(e.target.checked)
+    getRowColor(index) {
+      return index % 2 !== 0 ? 'bg-purple-50' : null
     }
   },
-  mounted() {
-    this.items.forEach((_, index) => {
-      this.checkboxes.push({ isChecked: false, id: index })
+  created() {
+    this.items.forEach((item) => {
+      this.selectedItems.push({ id: item[this.itemKey], isChecked: false })
     })
   }
 })
 </script>
 
-<style></style>
+<style scoped>
+@layer components {
+  #ogyh-table td,
+  #ogyh-table th {
+    @apply p-3 px-4;
+  }
+}
+</style>
