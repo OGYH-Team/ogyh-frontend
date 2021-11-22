@@ -106,7 +106,7 @@ export default Vue.extend({
         )
         return [...acc, ...reservationsByDateTime]
       }, [])
-      console.log(timeSlots)
+
       return timeSlots
     }
   },
