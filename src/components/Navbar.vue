@@ -4,7 +4,8 @@
       <font-awesome-icon
         icon="bars"
         size="lg"
-        class="cursor-pointer mr-4 lg:hidden md:block"
+        class="cursor-pointer mr-4 lg:hidden"
+        @click="toggleSideNav"
       />
       <h3 class="text-xl font-semibold">
         {{ navTitle }}
@@ -15,12 +16,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'Navbar',
   computed: {
     ...mapState('app', ['navTitle'])
+  },
+  methods: {
+    ...mapMutations('app', {
+      toggleSideNav: 'toggleSideNav'
+    })
   }
 })
 </script>

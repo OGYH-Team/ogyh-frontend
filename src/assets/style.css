@@ -14,4 +14,8 @@
   .btn-primary {
     @apply bg-green-500 text-white;
   }
+
+  .btn-primary.outlined {
+    @apply bg-white text-green-500 border-2 border-green-500;
+  }
 }

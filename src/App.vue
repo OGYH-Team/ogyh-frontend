@@ -2,6 +2,7 @@
   <div id="app">
     <loader :is-loading="$wait.is('loading')" />
     <side-nav />
+    <overlay :is-show="isSideNavOpen" />
     <div class="body h-screen overflow-hidden">
       <navbar />
       <page-content>
@@ -13,9 +14,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import SideNav from '@/components/SideNav.vue'
 import PageContent from '@/components/PageContent.vue'
-import Navbar from './components/Navbar.vue'
+import Navbar from '@/components/Navbar.vue'
+import Overlay from '@/components/Overlay.vue'
 import Loader from '@/components/Loader.vue'
 
 export default Vue.extend({
@@ -24,7 +27,11 @@ export default Vue.extend({
     SideNav,
     PageContent,
     Navbar,
-    Loader
+    Loader,
+    Overlay
+  },
+  computed: {
+    ...mapState('app', ['isSideNavOpen'])
   }
 })
 </script>
@@ -32,7 +39,7 @@ export default Vue.extend({
 <style>
 @layer components {
   #app {
-    @apply flex flex-row;
+    @apply flex flex-row min-h-screen;
   }
 
   .body {

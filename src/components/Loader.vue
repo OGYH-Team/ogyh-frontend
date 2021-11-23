@@ -1,16 +1,18 @@
 <template>
-  <div v-if="isLoading" class="overlay">
+  <overlay :is-show="isLoading">
     <spinner />
-  </div>
+  </overlay>
 </template>
 
 <script>
 import Vue from 'vue'
+import Overlay from '@/components/Overlay.vue'
 import Spinner from '@/components/Spinner.vue'
 
 export default Vue.extend({
   name: 'Loader',
   components: {
+    Overlay,
     Spinner
   },
   props: {
@@ -22,10 +24,4 @@ export default Vue.extend({
 })
 </script>
 
-<style>
-@layer components {
-  .overlay {
-    @apply w-screen h-screen absolute flex items-center justify-center bg-black bg-opacity-50 z-50;
-  }
-}
-</style>
+<style></style>

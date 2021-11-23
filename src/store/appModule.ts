@@ -4,12 +4,19 @@ const appModule = {
   namespaced: true,
   state(): AppModuleState {
     return {
-      navTitle: ''
+      navTitle: '',
+      isSideNavOpen: false
     }
   },
   mutations: {
-    setNavTitle: (state: AppModuleState, payload: { title: string }): void => {
+    setNavTitle(state: AppModuleState, payload: { title: string }): void {
       state.navTitle = payload.title
+    },
+    toggleSideNav(state: AppModuleState): void {
+      state.isSideNavOpen = !state.isSideNavOpen
+    },
+    closeSideNav(state: AppModuleState): void {
+      state.isSideNavOpen = false
     }
   },
   actions: {}

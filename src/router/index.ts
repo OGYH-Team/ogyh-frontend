@@ -33,4 +33,12 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
+router.afterEach((to, from) => {
+  const { isSideNavOpen } = store.state.app
+
+  if (isSideNavOpen) {
+    store.commit('app/closeSideNav')
+  }
+})
+
 export default router

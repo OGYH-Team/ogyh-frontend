@@ -27,6 +27,7 @@ export interface QueueModuleState {
 
 export interface AppModuleState {
   navTitle: string
+  isSideNavOpen: boolean
 }
 
 export interface RootState {

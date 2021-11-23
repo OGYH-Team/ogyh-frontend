@@ -1,15 +1,18 @@
 <template>
   <nav
     class="
-      w-1/5
-      h-screen
       bg-white
       shadow-2xl
+      z-50
+      h-screen
+      absolute
+      w-1/3
       flex flex-col
-      z-10
-      md:hidden
-      lg:block
+      transform
+      transition-transform
+      lg:w-1/5 lg:relative lg:translate-x-0
     "
+    :class="isSideNavOpen ? 'translate-x-0' : '-translate-x-full'"
   >
     <div class="h-20 flex items-center justify-center">
       <router-link to="/" class="uppercase font-bold text-3xl cursor-pointer">
@@ -39,6 +42,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
 export default Vue.extend({
   name: 'SideNav',
@@ -49,6 +53,9 @@ export default Vue.extend({
         { label: 'Sites', link: '/sites', icon: 'building' }
       ]
     }
+  },
+  computed: {
+    ...mapState('app', ['isSideNavOpen'])
   }
 })
 </script>

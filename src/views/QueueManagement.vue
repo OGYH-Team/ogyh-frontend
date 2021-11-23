@@ -15,9 +15,9 @@
         </div>
         <div class="flex-1 flex flex-col items-center">
           <span class="text-gray-500 font-semibold">{{ card.text }}</span>
-          <span class="font-extrabold text-5xl text-green-400">{{
-            card.count
-          }}</span>
+          <span class="font-extrabold text-5xl text-green-400">
+            {{ card.count }}
+          </span>
         </div>
       </div>
     </div>
@@ -40,13 +40,16 @@
               />
             </p>
             <div class="actions">
-              <button class="btn btn-primary" :disabled="!selectedItemsCount">
+              <button class="btn btn-primary">Report All</button>
+              <button
+                class="btn btn-primary outlined"
+                :disabled="!selectedItemsCount"
+              >
                 Report Selected
                 <span v-if="selectedItemsCount"
                   >({{ selectedItemsCount }})</span
                 >
               </button>
-              <button class="btn btn-primary">Report All</button>
             </div>
           </div>
         </template>
@@ -68,7 +71,7 @@
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 import { mapWaitingActions } from 'vue-wait'
-import OgyhTable from '@/components/OgyhTable.vue'
+import OgyhTable from '@/ogyhComponents/OgyhTable.vue'
 
 export default Vue.extend({
   components: {
