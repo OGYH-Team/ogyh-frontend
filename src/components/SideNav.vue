@@ -10,7 +10,7 @@
       flex flex-col
       transform
       transition-transform
-      lg:w-1/5 lg:relative lg:translate-x-0
+      lg:w-1/5 lg:relative lg:translate-x-0 lg:z-30
     "
     :class="isSideNavOpen ? 'translate-x-0' : '-translate-x-full'"
   >
@@ -50,7 +50,8 @@ export default Vue.extend({
     return {
       navItems: [
         { label: 'Queue', link: '/queue', icon: 'people-arrows' },
-        { label: 'Sites', link: '/sites', icon: 'building' }
+        { label: 'Sites', link: '/sites', icon: 'building' },
+        { label: 'Sign-in', link: '/account/sign-in', icon: 'sign-in-alt' }
       ]
     }
   },

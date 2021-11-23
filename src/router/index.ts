@@ -8,7 +8,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Index',
-    redirect: 'queue'
+    redirect: '/queue'
   },
   {
     path: '/queue',
@@ -19,6 +19,24 @@ const routes: Array<RouteConfig> = [
     path: '/sites',
     name: 'Sites Management',
     component: () => import('../views/SitesManagement.vue')
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: () => import('../views/Account.vue'),
+    children: [
+      {
+        path: 'sign-in',
+        name: 'Sign-in',
+        component: () => import('../views/Account.vue')
+      },
+      {
+        path: 'sign-up',
+        name: 'Sign-up',
+        component: () => import('../views/Account.vue'),
+        props: { isSignIn: false }
+      }
+    ]
   }
 ]
 

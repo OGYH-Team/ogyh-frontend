@@ -8,7 +8,10 @@ import {
   faUsers,
   faHotel,
   faHourglassHalf,
-  faSyncAlt
+  faSyncAlt,
+  faSignInAlt,
+  faSignOutAlt,
+  faUserPlus
 } from '@fortawesome/free-solid-svg-icons'
 import _Vue from 'vue'
 
@@ -20,7 +23,10 @@ library.add(
   faUsers,
   faHotel,
   faHourglassHalf,
-  faSyncAlt
+  faSyncAlt,
+  faSignInAlt,
+  faSignOutAlt,
+  faUserPlus
 )
 
 export default {
