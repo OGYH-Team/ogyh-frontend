@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-sm mx-auto flex flex-col items-center justify-center pt-8">
+  <div class="max-w-xs mx-auto flex flex-col items-center justify-center pt-8">
     <ogyh-text-field
       type="text"
       class="my-2"

@@ -29,7 +29,7 @@
         itemKey="citizen_id"
         haveCheckbox
       >
-        <template #tableHead="{ selectedItemsCount }">
+        <template #table-head="{ selectedItemsCount }">
           <div class="flex justify-between items-center p-4">
             <p class="font-bold text-xl text-purple-700">
               Queue Table
@@ -53,7 +53,7 @@
             </div>
           </div>
         </template>
-        <template #tableItem="{ item }">
+        <template #table-item="{ item }">
           <td>{{ item.citizen_id }}</td>
           <td>{{ item.citizen_data.name }}</td>
           <td>{{ item.citizen_data.surname }}</td>

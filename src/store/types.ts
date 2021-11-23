@@ -15,14 +15,26 @@ export interface Reservation {
 }
 
 export interface TimeSlot {
-  _id: string
+  id: string
   time_str: string
   date: string
   reservations: Array<Reservation>
 }
 
-export interface QueueModuleState {
-  timeSlots: Array<TimeSlot>
+export interface Site {
+  name: string
+  location: {
+    full_address: string
+    country: string
+    postal_code: string
+    route: string
+    city: string
+    coordinates: {
+      latitude: number
+      longitude: number
+    }
+  }
+  id: string
 }
 
 export interface AppModuleState {
@@ -30,7 +42,16 @@ export interface AppModuleState {
   isSideNavOpen: boolean
 }
 
+export interface QueueModuleState {
+  timeSlots: Array<TimeSlot>
+}
+
+export interface SitesModuleState {
+  sites: Array<Site>
+}
+
 export interface RootState {
   app: AppModuleState
   queue: QueueModuleState
+  sites: SitesModuleState
 }

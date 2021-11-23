@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="tableHead" :selectedItemsCount="selectedItemsCount"></slot>
+    <slot name="table-head" :selectedItemsCount="selectedItemsCount"></slot>
     <table class="table-auto w-full" id="ogyh-table">
       <thead>
         <tr class="bg-purple-100 text-purple-700">
@@ -30,7 +30,7 @@
               <ogyh-checkbox v-model="selectedItems[itemIndex].isChecked" />
             </td>
           </template>
-          <slot name="tableItem" :item="item"></slot>
+          <slot name="table-item" :item="item" :index="itemIndex"></slot>
         </tr>
       </tbody>
     </table>

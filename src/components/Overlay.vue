@@ -1,12 +1,11 @@
 <template>
-  <div v-if="isShow" @click="toggleSideNav" class="overlay">
+  <div v-if="isShow" v-on="$listeners" class="overlay">
     <slot></slot>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'Overlay',
@@ -15,11 +14,6 @@ export default Vue.extend({
       type: Boolean,
       default: false
     }
-  },
-  methods: {
-    ...mapMutations('app', {
-      toggleSideNav: 'toggleSideNav'
-    })
   }
 })
 </script>
@@ -27,7 +21,7 @@ export default Vue.extend({
 <style>
 @layer components {
   .overlay {
-    @apply w-screen h-screen absolute flex items-center 
+    @apply absolute w-screen h-screen flex items-center top-0 left-0
     justify-center bg-black bg-opacity-50 z-40;
   }
 }

@@ -2,7 +2,7 @@
   <div id="app">
     <loader :is-loading="$wait.is('loading')" />
     <side-nav />
-    <overlay :is-show="isSideNavOpen" />
+    <overlay :is-show="isSideNavOpen" @click="closeSideNav" />
     <div class="body h-screen overflow-hidden">
       <navbar />
       <page-content>
@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import SideNav from '@/components/SideNav.vue'
 import PageContent from '@/components/PageContent.vue'
 import Navbar from '@/components/Navbar.vue'
@@ -32,6 +32,11 @@ export default Vue.extend({
   },
   computed: {
     ...mapState('app', ['isSideNavOpen'])
+  },
+  methods: {
+    ...mapMutations('app', {
+      closeSideNav: 'closeSideNav'
+    })
   }
 })
 </script>

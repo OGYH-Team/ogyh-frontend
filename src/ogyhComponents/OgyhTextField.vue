@@ -1,17 +1,5 @@
 <template>
-  <input
-    v-bind="$attrs"
-    v-on="$listeners"
-    class="
-      border border-transparent
-      shadow-md
-      rounded-md
-      w-full
-      px-3
-      py-2
-      focus:outline-none focus:ring-2 focus:ring-purple-600
-    "
-  />
+  <input v-bind="$attrs" class="ogyh-field" @input="onTextInputChange" />
 </template>
 
 <script>
@@ -22,7 +10,7 @@ export default Vue.extend({
   props: ['value'],
   methods: {
     onTextInputChange(e) {
-      this.$emit(e.target.value)
+      this.$emit('input', e.target.value)
     }
   }
 })

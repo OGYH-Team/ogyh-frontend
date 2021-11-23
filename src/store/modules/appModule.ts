@@ -1,4 +1,4 @@
-import { AppModuleState } from './types'
+import { AppModuleState } from '../types'
 
 const appModule = {
   namespaced: true,

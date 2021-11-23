@@ -1,19 +1,16 @@
 import { ActionContext } from 'vuex'
-import axios from '../httpClient'
-import { QueueModuleState, RootState, TimeSlot } from './types'
+import axios from '@/httpClient'
+import { QueueModuleState, RootState, TimeSlot } from '../types'
 
 const queueModule = {
   namespaced: true,
   state(): QueueModuleState {
     return {
-      timeSlots: []
+      timeSlots: [] as Array<TimeSlot>
     }
   },
   mutations: {
-    setTimeSlots: (
-      state: QueueModuleState,
-      timeSlots: Array<TimeSlot>
-    ): void => {
+    setTimeSlots(state: QueueModuleState, timeSlots: Array<TimeSlot>): void {
       state.timeSlots = timeSlots
     }
   },

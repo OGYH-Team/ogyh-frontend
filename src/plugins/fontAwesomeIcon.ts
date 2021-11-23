@@ -11,7 +11,8 @@ import {
   faSyncAlt,
   faSignInAlt,
   faSignOutAlt,
-  faUserPlus
+  faUserPlus,
+  faTrashAlt
 } from '@fortawesome/free-solid-svg-icons'
 import _Vue from 'vue'
 
@@ -26,7 +27,8 @@ library.add(
   faSyncAlt,
   faSignInAlt,
   faSignOutAlt,
-  faUserPlus
+  faUserPlus,
+  faTrashAlt
 )
 
 export default {
