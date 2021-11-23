@@ -28,8 +28,7 @@ export default Vue.extend({
 @layer components {
   .overlay {
     @apply w-screen h-screen absolute flex items-center 
-    justify-center bg-black bg-opacity-50 z-40 
-    lg:hidden lg:pointer-events-none;
+    justify-center bg-black bg-opacity-50 z-40;
   }
 }
 </style>
