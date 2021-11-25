@@ -12,7 +12,7 @@
       <template #table-item="{ item, index }">
         <td>{{ index + 1 }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.location }}</td>
+        <td>{{ item.location.full_address }}</td>
         <td>
           <font-awesome-icon
             class="cursor-pointer"
