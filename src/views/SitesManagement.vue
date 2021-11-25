@@ -12,7 +12,7 @@
       <template #table-item="{ item, index }">
         <td>{{ index + 1 }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.location.full_address }}</td>
+        <td>{{ item.location.formatted_address }}</td>
         <td>
           <font-awesome-icon
             class="cursor-pointer"
@@ -123,7 +123,7 @@ export default Vue.extend({
     },
     getAddressData(addressData, placeResultData) {
       this.newSiteForm.location = {
-        full_address: placeResultData.formatted_address,
+        formatted_address: placeResultData.formatted_address,
         country: addressData.country,
         postal_code: addressData.postal_code,
         route: addressData.route,
