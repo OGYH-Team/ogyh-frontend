@@ -1,39 +1,41 @@
 <template>
-  <div>
-    <slot name="table-head" :selectedItemsCount="selectedItemsCount"></slot>
-    <table class="table-auto w-full" id="ogyh-table">
-      <thead>
-        <tr class="bg-purple-100 text-purple-700">
-          <template v-if="haveCheckbox">
-            <th class="text-center">
-              <ogyh-checkbox @input="toggleSelectAll" />
+  <div class="overflow-hidden h-full">
+    <slot name="table-head" :selectedItemsCount="selectedItemsCount"> </slot>
+    <div class="overflow-x-auto h-full">
+      <table class="table-auto" id="ogyh-table">
+        <thead>
+          <tr class="bg-purple-100 text-purple-700">
+            <template v-if="haveCheckbox">
+              <th class="text-center">
+                <ogyh-checkbox @input="toggleSelectAll" />
+              </th>
+            </template>
+            <th
+              v-for="(header, headerIndex) in headers"
+              :key="headerIndex"
+              class="text-left"
+            >
+              {{ header }}
             </th>
-          </template>
-          <th
-            v-for="(header, headerIndex) in headers"
-            :key="headerIndex"
-            class="text-left"
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(item, itemIndex) in items"
+            :key="itemIndex"
+            :class="getRowColor(itemIndex)"
+            class="font-light text-gray-600"
           >
-            {{ header }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(item, itemIndex) in items"
-          :key="itemIndex"
-          :class="getRowColor(itemIndex)"
-          class="font-light text-gray-600"
-        >
-          <template v-if="haveCheckbox">
-            <td class="text-center">
-              <ogyh-checkbox v-model="selectedItems[itemIndex].isChecked" />
-            </td>
-          </template>
-          <slot name="table-item" :item="item" :index="itemIndex"></slot>
-        </tr>
-      </tbody>
-    </table>
+            <template v-if="haveCheckbox">
+              <td class="text-center">
+                <ogyh-checkbox v-model="selectedItems[itemIndex].isChecked" />
+              </td>
+            </template>
+            <slot name="table-item" :item="item" :index="itemIndex"></slot>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -69,6 +71,18 @@ export default Vue.extend({
       selectedItems: []
     }
   },
+  watch: {
+    selectedItemsCount() {
+      const selectedId = this.selectedItems.reduce((acc, item) => {
+        if (item.isChecked) {
+          return [...acc, item.id]
+        }
+        return [...acc]
+      }, [])
+      this.$emit('selected-update', selectedId)
+      console.log(selectedId)
+    }
+  },
   computed: {
     selectedItemsCount() {
       return this.selectedItems.filter((item) => item.isChecked).length
@@ -94,10 +108,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+#ogyh-table {
+  min-width: 900px;
+  width: 100%;
+}
+
 @layer components {
   #ogyh-table td,
   #ogyh-table th {
-    @apply p-3 px-4;
+    @apply p-2 px-3 text-sm lg:p-3 lg:px-4 lg:text-base;
   }
 }
 </style>

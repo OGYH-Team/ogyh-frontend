@@ -8,7 +8,7 @@
   }
 
   .ogyh-field {
-    @apply border border-transparent shadow-md rounded-md w-full
+    @apply border-2 border-transparent shadow-md rounded-md w-full
     px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-600;
   }
 
@@ -28,5 +28,9 @@
 
   .btn-accent {
     @apply bg-purple-700 text-white;
+  }
+
+  .error-message {
+    @apply text-red-500 font-light text-sm;
   }
 }

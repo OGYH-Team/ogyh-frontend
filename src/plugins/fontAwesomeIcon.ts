@@ -13,7 +13,9 @@ import {
   faSignOutAlt,
   faUserPlus,
   faTrashAlt,
-  faCheckCircle
+  faCheckCircle,
+  faCaretDown,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons'
 import _Vue from 'vue'
 
@@ -30,7 +32,9 @@ library.add(
   faSignOutAlt,
   faUserPlus,
   faTrashAlt,
-  faCheckCircle
+  faCheckCircle,
+  faCaretDown,
+  faCheck
 )
 
 export default {

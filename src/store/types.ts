@@ -26,7 +26,7 @@ export interface Site {
   location: {
     full_address: string
     country: string
-    postal_code: string
+    postal: string
     route: string
     city: string
     coordinates: {
@@ -40,10 +40,12 @@ export interface Site {
 export interface AppModuleState {
   navTitle: string
   isSideNavOpen: boolean
+  isAuth: boolean
 }
 
 export interface QueueModuleState {
   timeSlots: Array<TimeSlot>
+  selectedSite: Site
 }
 
 export interface SitesModuleState {

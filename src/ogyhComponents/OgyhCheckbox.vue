@@ -3,9 +3,11 @@
     type="checkbox"
     class="
       appearance-none
-      w-4
-      h-4
-      rounded-md
+      w-3
+      h-3
+      lg:w-4 lg:h-4
+      rounded-sm
+      lg:rounded-md
       cursor-pointer
       border border-gray-400
       checked:bg-indigo-700 checked:border-transparent

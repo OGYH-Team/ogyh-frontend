@@ -18,22 +18,20 @@ const sitesModule = {
     async fetchSites({
       commit
     }: ActionContext<SitesModuleState, RootState>): Promise<void> {
-      const { data } = await axios.get(
-        'https://ogyh-backend.herokuapp.com/api/sites'
-      )
-      commit('setSites', data.response)
+      const { data } = await axios.get('api/sites')
+      commit('setSites', data)
     },
     async addNewSite(
       context: ActionContext<SitesModuleState, RootState>,
       payload: Site
     ): Promise<void> {
-      await axios.post('https://ogyh-backend.herokuapp.com/api/site', payload)
+      await axios.post('api/site', payload)
     },
     async deleteSite(
       context: ActionContext<SitesModuleState, RootState>,
       id: string
     ): Promise<void> {
-      await axios.delete(`https://ogyh-backend.herokuapp.com/api/site/${id}`)
+      await axios.delete(`api/site/${id}`)
     }
   }
 }

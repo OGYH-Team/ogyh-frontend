@@ -4,7 +4,11 @@
       <template #table-head>
         <div class="p-4 flex items-center justify-between">
           <p class="font-bold text-xl text-purple-700">All Sites</p>
-          <button class="btn btn-primary" @click="isDialogOpened = true">
+          <button
+            class="btn btn-primary"
+            @click="isDialogOpened = true"
+            v-if="isAuth"
+          >
             Add Site <font-awesome-icon icon="building" class="ml-1" />
           </button>
         </div>
@@ -13,7 +17,7 @@
         <td>{{ index + 1 }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.location.formatted_address }}</td>
-        <td>
+        <td v-if="isAuth" class="text-center">
           <font-awesome-icon
             class="cursor-pointer"
             icon="trash-alt"
@@ -34,7 +38,7 @@
             placeholder="Enter Site Name..."
             name="name"
             :value="newSiteForm.name"
-            @input="(value) => onSiteNameInputChange(value)"
+            @input="(value) => onInputChange(value, 'name')"
           />
           <label for="location" class="text-sm pl-1">Location</label>
           <vue-google-autocomplete
@@ -43,6 +47,15 @@
             placeholder="Enter Location..."
             @placechanged="getAddressData"
             :country="['th']"
+          />
+          <label for="capacity" class="text-sm pl-1">Site Name</label>
+          <ogyh-text-field
+            class="my-2 mb-4"
+            placeholder="Enter Site Capacity..."
+            name="capacity"
+            type="number"
+            :value="newSiteForm.name"
+            @input="(value) => onInputChange(value, 'capacity')"
           />
         </div>
       </template>
@@ -79,16 +92,18 @@ export default Vue.extend({
   },
   data() {
     return {
-      tableHeaders: ['No.', 'Name', 'Location', 'Actions'],
+      tableHeaders: ['No.', 'Name', 'Location'],
       isDialogOpened: false,
       newSiteForm: {
         name: '',
-        location: null
+        location: null,
+        capacity: 0
       }
     }
   },
   computed: {
-    ...mapState('sites', ['sites'])
+    ...mapState('sites', ['sites']),
+    ...mapState('app', ['isAuth'])
   },
   methods: {
     ...mapActions('sites', {
@@ -104,11 +119,18 @@ export default Vue.extend({
     onCloseDialog() {
       this.isDialogOpened = false
     },
-    onSiteNameInputChange(value) {
-      this.newSiteForm.name = value
+    onInputChange(value, field) {
+      this.newSiteForm[field] = value
     },
     async onAddNewSite() {
-      if (!(this.newSiteForm.name && this.newSiteForm.location)) return
+      if (
+        !(
+          this.newSiteForm.name &&
+          this.newSiteForm.location &&
+          this.newSiteForm.capacity
+        )
+      )
+        return
       this.onCloseDialog()
       try {
         await this.addNewSite(this.newSiteForm)
@@ -125,7 +147,7 @@ export default Vue.extend({
       this.newSiteForm.location = {
         formatted_address: placeResultData.formatted_address,
         country: addressData.country,
-        postal_code: addressData.postal_code,
+        postal: addressData.postal_code,
         route: addressData.route,
         city: addressData.administrative_area_level_1,
         coordinates: {
@@ -136,6 +158,11 @@ export default Vue.extend({
     }
   },
   async created() {
+    if (this.isAuth) {
+      this.tableHeaders = ['No.', 'Name', 'Location', 'Actions']
+    } else {
+      this.tableHeaders = ['No.', 'Name', 'Location']
+    }
     await this.fetchSites()
   }
 })

@@ -28,7 +28,7 @@
     <div v-for="(item, itemIndex) in navItems" :key="itemIndex">
       <router-link
         :to="item.link"
-        class="p-4 flex text-gray-400 hover:text-purple-700 items-center"
+        class="nav-item"
         active-class="bg-purple-100 text-purple-700 font-semibold"
       >
         <span class="w-10 flex items-center justify-center">
@@ -37,12 +37,24 @@
         <span class="ml-2 flex-grow">{{ item.label }}</span>
       </router-link>
     </div>
+    <router-link
+      v-if="!isAuth"
+      to="/sign-in"
+      class="nav-item"
+      active-class="bg-purple-100 text-purple-700 font-semibold"
+    >
+      <span class="w-10 flex items-center justify-center">
+        <font-awesome-icon icon="sign-in-alt" />
+      </span>
+      <span class="ml-2 flex-grow">Sign-in</span>
+    </router-link>
   </nav>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import { mapState } from 'vuex'
+import axios from '@/httpClient'
 
 export default Vue.extend({
   name: 'SideNav',
@@ -50,15 +62,20 @@ export default Vue.extend({
     return {
       navItems: [
         { label: 'Queue', link: '/queue', icon: 'people-arrows' },
-        { label: 'Sites', link: '/sites', icon: 'building' },
-        { label: 'Sign-in', link: '/account/sign-in', icon: 'sign-in-alt' }
+        { label: 'Sites', link: '/sites', icon: 'building' }
       ]
     }
   },
   computed: {
-    ...mapState('app', ['isSideNavOpen'])
+    ...mapState('app', ['isSideNavOpen', 'isAuth'])
   }
 })
 </script>
 
-<style></style>
+<style>
+@layer components {
+  .nav-item {
+    @apply p-4 flex text-gray-400 hover:text-purple-700 items-center cursor-pointer;
+  }
+}
+</style>

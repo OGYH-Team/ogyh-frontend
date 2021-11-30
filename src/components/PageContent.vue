@@ -1,5 +1,5 @@
 <template>
-  <div id="page-content" class="flex-grow p-4 overflow-auto">
+  <div id="page-content" class="flex-grow p-4 overflow-auto flex flex-col">
     <slot></slot>
   </div>
 </template>
