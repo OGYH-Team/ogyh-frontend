@@ -40,15 +40,21 @@
               />
             </p>
             <div class="actions">
-              <button class="btn btn-primary">Report All</button>
+              <button
+                class="btn btn-primary"
+                @click="() => onOpenConfirmationDialog('all')"
+              >
+                Report All
+              </button>
               <button
                 class="btn btn-primary outlined"
                 :disabled="!selectedItemsCount"
+                @click="() => onOpenConfirmationDialog('selected')"
               >
                 Report Selected
-                <span v-if="selectedItemsCount"
-                  >({{ selectedItemsCount }})</span
-                >
+                <span v-if="selectedItemsCount">
+                  ({{ selectedItemsCount }})
+                </span>
               </button>
             </div>
           </div>
@@ -64,6 +70,13 @@
         </template>
       </ogyh-table>
     </div>
+    <confirmation-dialog
+      :is-show="dialogData.isDialogOpened"
+      :title="dialogData.title"
+      :body="dialogData.body"
+      @close="onCloseConfirmationDialog"
+      @agree="onSendReport"
+    />
   </div>
 </template>
 
@@ -72,10 +85,12 @@ import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 import { mapWaitingActions } from 'vue-wait'
 import OgyhTable from '@/ogyhComponents/OgyhTable.vue'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 export default Vue.extend({
   components: {
-    OgyhTable
+    OgyhTable,
+    ConfirmationDialog
   },
   name: 'QueueManagement',
   data() {
@@ -93,7 +108,13 @@ export default Vue.extend({
         'Site',
         'Date',
         'Time'
-      ]
+      ],
+      dialogData: {
+        title: '',
+        body: '',
+        isDialogOpened: false,
+        actionType: ''
+      }
     }
   },
   computed: {
@@ -125,6 +146,35 @@ export default Vue.extend({
     async onUpdateQueueTimeSlots() {
       await this.updateQueueTimeSlots()
       await this.fetchQueueTimeSlots()
+    },
+    onCloseConfirmationDialog() {
+      this.dialogData.isDialogOpened = false
+    },
+    onOpenConfirmationDialog(actionType) {
+      this.dialogData.actionType = actionType
+      if (actionType === 'all') {
+        this.dialogData.title = 'Report to all confirmation'
+        this.dialogData.body =
+          'Are you sure to report queue information to all reservations?'
+      } else {
+        this.dialogData.title = 'Report to selected confirmation'
+        this.dialogData.body =
+          'Are you sure to report queue information to selected reservations?'
+      }
+      this.dialogData.isDialogOpened = true
+    },
+    onSendReport() {
+      switch (this.dialogData.actionType) {
+        case 'all':
+          this.onCloseConfirmationDialog()
+          break
+        case 'selected':
+          this.onCloseConfirmationDialog()
+          break
+        default:
+          this.onCloseConfirmationDialog()
+          break
+      }
     }
   },
   async created() {

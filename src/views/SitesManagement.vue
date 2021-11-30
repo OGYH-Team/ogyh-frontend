@@ -4,7 +4,7 @@
       <template #table-head>
         <div class="p-4 flex items-center justify-between">
           <p class="font-bold text-xl text-purple-700">All Sites</p>
-          <button class="btn btn-primary" @click="isDialogOpen = true">
+          <button class="btn btn-primary" @click="isDialogOpened = true">
             Add Site <font-awesome-icon icon="building" class="ml-1" />
           </button>
         </div>
@@ -22,7 +22,7 @@
         </td>
       </template>
     </ogyh-table>
-    <ogyh-dialog :is-show="isDialogOpen" @close="onCloseDialog">
+    <ogyh-dialog :is-show="isDialogOpened" @close="onCloseDialog">
       <template #dialog-title>
         <h3 class="font-semibold text-lg text-indigo-700">Add New Site</h3>
       </template>
@@ -80,7 +80,7 @@ export default Vue.extend({
   data() {
     return {
       tableHeaders: ['No.', 'Name', 'Location', 'Actions'],
-      isDialogOpen: false,
+      isDialogOpened: false,
       newSiteForm: {
         name: '',
         location: null
@@ -102,7 +102,7 @@ export default Vue.extend({
       deleteSite: 'loading'
     }),
     onCloseDialog() {
-      this.isDialogOpen = false
+      this.isDialogOpened = false
     },
     onSiteNameInputChange(value) {
       this.newSiteForm.name = value
