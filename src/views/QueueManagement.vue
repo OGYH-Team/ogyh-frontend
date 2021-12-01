@@ -96,7 +96,7 @@
           <td>{{ item.site_name }}</td>
           <td>{{ item.date }}</td>
           <td>{{ item.time }}</td>
-          <td class="text-center">
+          <td class="text-center" v-if="isAuth">
             <font-awesome-icon
               icon="check"
               class="cursor-pointer"
@@ -145,8 +145,7 @@ export default Vue.extend({
         'Occupation',
         'Site',
         'Date',
-        'Time',
-        'Actions'
+        'Time'
       ],
       dialogData: {
         title: '',
@@ -267,6 +266,18 @@ export default Vue.extend({
     }
   },
   async created() {
+    if (this.isAuth) {
+      this.tableHeaders = [
+        'Citizen Id',
+        'Name',
+        'Surname',
+        'Occupation',
+        'Site',
+        'Date',
+        'Time',
+        'Actions'
+      ]
+    }
     await this.fetchSites()
     this.cards = [
       { icon: 'hotel', text: 'Sites', count: this.sitesCount },
