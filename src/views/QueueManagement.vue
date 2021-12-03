@@ -19,9 +19,9 @@
           />
         </div>
         <div class="flex-1 flex flex-col items-center">
-          <span class="text-gray-500 font-semibold text-sm lg:text-base">{{
-            card.text
-          }}</span>
+          <span class="text-gray-500 font-semibold text-sm lg:text-base">
+            {{ card.text }}
+          </span>
           <span
             class="
               font-extrabold
@@ -31,7 +31,7 @@
               text-green-400
             "
           >
-            {{ card.count ? card.count : '0' }}
+            {{ card.count || '0' }}
           </span>
         </div>
       </div>
@@ -259,7 +259,7 @@ export default Vue.extend({
     },
     async onMenuItemSelect(menu) {
       if (menu.id === this.selectedSite.id) return
-      this.fetchSiteTimeSlots(menu)
+      await this.fetchSiteTimeSlots(menu)
       this.$refs.queueTable.resetSelected()
     },
     async onSendReportTaken(id) {

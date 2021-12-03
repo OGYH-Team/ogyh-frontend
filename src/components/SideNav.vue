@@ -48,6 +48,17 @@
       </span>
       <span class="ml-2 flex-grow">Sign-in</span>
     </router-link>
+    <router-link
+      v-else
+      to="/walk-in"
+      class="nav-item"
+      active-class="bg-purple-100 text-purple-700 font-semibold"
+    >
+      <span class="w-10 flex items-center justify-center">
+        <font-awesome-icon icon="walking" />
+      </span>
+      <span class="ml-2 flex-grow">Walk-in</span>
+    </router-link>
   </nav>
 </template>
 
@@ -61,8 +72,7 @@ export default Vue.extend({
     return {
       navItems: [
         { label: 'Queue', link: '/queue', icon: 'people-arrows' },
-        { label: 'Sites', link: '/sites', icon: 'building' },
-        { label: 'Walk-in', link: 'walk-in', icon: 'walking' }
+        { label: 'Sites', link: '/sites', icon: 'building' }
       ]
     }
   },

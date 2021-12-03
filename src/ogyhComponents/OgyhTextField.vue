@@ -3,6 +3,7 @@
     v-bind="$attrs"
     class="ogyh-field"
     @input="onTextInputChange"
+    :value="value"
     :class="error ? 'border-red-400 focus:ring-0' : 'border-transparent'"
   />
 </template>

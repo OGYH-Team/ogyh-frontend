@@ -6,10 +6,10 @@
       ref="dropdown"
       type="button"
       :class="[
-        inputStyle
-          ? 'ogyh-field bg-white text-gray-400 focus:ring-2 focus:ring-purple-600'
-          : '',
-        error ? 'border-red-400 focus:ring-0' : ''
+        inputStyle ? 'ogyh-field bg-white text-gray-400' : '',
+        error
+          ? 'border-red-400 focus:ring-0'
+          : 'focus:ring-2 focus:ring-purple-600'
       ]"
     >
       <span :class="haveSelected ? 'text-black' : ''">{{ placeholder }}</span>

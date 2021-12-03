@@ -5,7 +5,7 @@
       :selectedItemsCount="selectedItemsCount"
       :resetSelected="resetSelected"
     ></slot>
-    <div class="overflow-x-auto h-full">
+    <div class="overflow-x-auto h-full flex flex-col">
       <table class="table-auto" id="ogyh-table">
         <thead>
           <tr class="bg-purple-100 text-purple-700">
@@ -26,22 +26,26 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="items.length">
           <tr
             v-for="(item, itemIndex) in items"
             :key="itemIndex"
             :class="getRowColor(itemIndex)"
             class="font-light text-gray-600"
           >
-            <template v-if="haveCheckbox">
-              <td class="text-center">
-                <ogyh-checkbox v-model="selectedItems[itemIndex].isChecked" />
-              </td>
-            </template>
+            <td v-if="haveCheckbox && selectedItems.length" class="text-center">
+              <ogyh-checkbox v-model="selectedItems[itemIndex].isChecked" />
+            </td>
             <slot name="table-item" :item="item" :index="itemIndex"></slot>
           </tr>
         </tbody>
       </table>
+      <div
+        v-if="!items.length"
+        class="flex-grow flex items-center justify-center"
+      >
+        <p class="text-gray-400 text-sm">No reservations</p>
+      </div>
     </div>
   </div>
 </template>
@@ -81,16 +85,18 @@ export default Vue.extend({
   },
   watch: {
     selectedItemsCount() {
-      this.selectAllCheckbox = this.selectedItems
-        .map((selectedItem) => selectedItem.isChecked)
-        .every(Boolean)
-      const selectedId = this.selectedItems.reduce((acc, item) => {
-        if (item.isChecked) {
-          return [...acc, item.id]
-        }
-        return [...acc]
-      }, [])
-      this.$emit('selected-update', selectedId)
+      if (this.items.length && this.selectedItems.length) {
+        this.selectAllCheckbox = this.selectedItems
+          .map((selectedItem) => selectedItem.isChecked)
+          .every(Boolean)
+        const selectedId = this.selectedItems.reduce((acc, item) => {
+          if (item.isChecked) {
+            return [...acc, item.id]
+          }
+          return [...acc]
+        }, [])
+        this.$emit('selected-update', selectedId)
+      }
     }
   },
   computed: {

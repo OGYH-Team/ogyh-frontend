@@ -12,9 +12,9 @@
       class="mt-2"
       name="citizenId"
       placeholder="Enter Citizen ID..."
-      v-model="walkInForm.citizenId"
+      :value="walkInForm.citizenId"
       :error="errors.citizenId"
-      @input="() => clearError()"
+      @input="(value) => onInputCitizenId(value)"
     />
     <span v-if="errors.citizenId" class="error-message">
       {{ errors.citizenId }}
@@ -57,6 +57,9 @@
     <p v-if="submitError.isError" class="error-message mt-4">
       {{ submitError.message }}
     </p>
+    <p v-if="submitSuccess.isSuccess" class="success-message mt-4">
+      {{ submitSuccess.message }}
+    </p>
   </form>
 </template>
 
@@ -89,6 +92,10 @@ export default Vue.extend({
         message: '',
         isError: false
       },
+      submitSuccess: {
+        message: '',
+        isSuccess: false
+      },
       vaccines: ['Astra', 'Pfizer', 'Sinovac', 'Sinopharm']
     }
   },
@@ -110,10 +117,12 @@ export default Vue.extend({
     ...mapWaitingActions('sites', {
       fetchSites: 'loading'
     }),
-    clearError() {
+    onInputCitizenId(value) {
+      this.walkInForm.citizenId = value
       this.errors.citizenId = ''
     },
     async onSubmitWalkInReport() {
+      this.resetMessage()
       if (
         !(
           this.walkInForm.citizenId &&
@@ -140,8 +149,15 @@ export default Vue.extend({
           vaccineName: this.walkInForm.vaccineName
         })
         this.resetForm()
+        this.submitSuccess = {
+          isSuccess: true,
+          message: 'Report vaccine taken successfully'
+        }
       } catch (e) {
-        this.submitError = 'Report vaccine taken failed'
+        this.submitError = {
+          isError: true,
+          message: 'Report vaccine taken failed'
+        }
         console.error(e)
       }
     },
@@ -158,6 +174,17 @@ export default Vue.extend({
         citizenId: '',
         vaccineName: '',
         site: {}
+      }
+      console.log(this.walkInForm)
+    },
+    resetMessage() {
+      this.submitError = {
+        message: '',
+        isError: false
+      }
+      this.submitSuccess = {
+        message: '',
+        isSuccess: false
       }
     }
   },
