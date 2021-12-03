@@ -34,22 +34,39 @@ const queueModule = {
     },
     async reportQueues(
       { state }: ActionContext<QueueModuleState, RootState>,
-      citizen_ids: Array<string>
+      citizenIds: Array<string>
     ): Promise<void> {
       await axios.post(`api/site/${state.selectedSite.id}/queues/report`, {
-        citizen_ids
+        citizen_ids: citizenIds
       })
     },
     async sendReportTaken(
       { state }: ActionContext<QueueModuleState, RootState>,
-      citizen_ids: Array<string>
+      citizenIds: Array<string>
     ): Promise<void> {
       await axios.post(
         `api/site/${state.selectedSite.id}/queues/report-taken`,
         {
-          citizen_ids
+          citizen_ids: citizenIds
         }
       )
+    },
+    async sendReportTakenWalkin(
+      { state }: ActionContext<QueueModuleState, RootState>,
+      {
+        siteId,
+        citizenId,
+        vaccineName
+      }: {
+        siteId: string
+        citizenId: string
+        vaccineName: string
+      }
+    ): Promise<void> {
+      await axios.post(`api/site/${siteId}/queues/walkin-report`, {
+        citizen_id: citizenId,
+        vaccine_name: vaccineName
+      })
     }
   }
 }

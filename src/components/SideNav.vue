@@ -54,7 +54,6 @@
 <script>
 import Vue from 'vue'
 import { mapState } from 'vuex'
-import axios from '@/httpClient'
 
 export default Vue.extend({
   name: 'SideNav',
@@ -62,7 +61,8 @@ export default Vue.extend({
     return {
       navItems: [
         { label: 'Queue', link: '/queue', icon: 'people-arrows' },
-        { label: 'Sites', link: '/sites', icon: 'building' }
+        { label: 'Sites', link: '/sites', icon: 'building' },
+        { label: 'Walk-in', link: 'walk-in', icon: 'walking' }
       ]
     }
   },

@@ -1,30 +1,61 @@
 <template>
   <div class="relative">
-    <button class="btn btn-accent" @click="toggleDropdown" ref="dropdown">
-      {{ placeholder }}
+    <button
+      class="btn btn-accent flex justify-between items-center"
+      @click="toggleDropdown"
+      ref="dropdown"
+      type="button"
+      :class="[
+        inputStyle
+          ? 'ogyh-field bg-white text-gray-400 focus:ring-2 focus:ring-purple-600'
+          : '',
+        error ? 'border-red-400 focus:ring-0' : ''
+      ]"
+    >
+      <span :class="haveSelected ? 'text-black' : ''">{{ placeholder }}</span>
       <font-awesome-icon icon="caret-down" class="ml-2" />
     </button>
     <ul
       class="
         flex flex-col
+        w-60
         bg-white
         shadow-md
         absolute
+        rounded-md
         left-0
+        max-h-60
+        overflow-y-auto
         -bottom-2
         transform
         translate-y-full
+        z-10
       "
       v-if="isDropdownOpen"
     >
-      <li
-        class="px-2 py-3 cursor-pointer hover:bg-gray-100 select-none"
-        v-for="(menu, menuItem) in menus"
-        :key="menuItem"
-        @click="() => onMenuItemSelect(menu)"
-      >
-        <slot name="menu-item" :menuItem="menu"></slot>
-      </li>
+      <template v-if="!menus.length">
+        <li class="px-2 py-3 text-gray-400 select-none truncate flex-none">
+          <p>...</p>
+        </li>
+      </template>
+      <template v-else>
+        <li
+          class="
+            px-2
+            py-3
+            cursor-pointer
+            hover:bg-gray-100
+            select-none
+            truncate
+            flex-none
+          "
+          v-for="(menu, menuItem) in menus"
+          :key="menuItem"
+          @click="() => onMenuItemSelect(menu)"
+        >
+          <slot name="menu-item" :menuItem="menu"></slot>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -42,6 +73,18 @@ export default Vue.extend({
     placeholder: {
       type: String,
       default: 'Select items...'
+    },
+    inputStyle: {
+      type: Boolean,
+      default: false
+    },
+    haveSelected: {
+      type: Boolean,
+      default: false
+    },
+    error: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

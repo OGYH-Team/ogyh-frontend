@@ -1,13 +1,20 @@
 <template>
   <div class="overflow-hidden h-full">
-    <slot name="table-head" :selectedItemsCount="selectedItemsCount"> </slot>
+    <slot
+      name="table-head"
+      :selectedItemsCount="selectedItemsCount"
+      :resetSelected="resetSelected"
+    ></slot>
     <div class="overflow-x-auto h-full">
       <table class="table-auto" id="ogyh-table">
         <thead>
           <tr class="bg-purple-100 text-purple-700">
             <template v-if="haveCheckbox">
               <th class="text-center">
-                <ogyh-checkbox @input="toggleSelectAll" />
+                <ogyh-checkbox
+                  @input="toggleSelectAll"
+                  v-model="selectAllCheckbox"
+                />
               </th>
             </template>
             <th
@@ -68,11 +75,15 @@ export default Vue.extend({
   },
   data() {
     return {
-      selectedItems: []
+      selectedItems: [],
+      selectAllCheckbox: false
     }
   },
   watch: {
     selectedItemsCount() {
+      this.selectAllCheckbox = this.selectedItems
+        .map((selectedItem) => selectedItem.isChecked)
+        .every(Boolean)
       const selectedId = this.selectedItems.reduce((acc, item) => {
         if (item.isChecked) {
           return [...acc, item.id]
@@ -80,7 +91,6 @@ export default Vue.extend({
         return [...acc]
       }, [])
       this.$emit('selected-update', selectedId)
-      console.log(selectedId)
     }
   },
   computed: {
@@ -97,12 +107,19 @@ export default Vue.extend({
     },
     getRowColor(index) {
       return index % 2 !== 0 ? 'bg-purple-50' : null
+    },
+    resetSelected() {
+      this.selectedItems = []
+      this.initSelectedItems()
+    },
+    initSelectedItems() {
+      this.items.forEach((item) => {
+        this.selectedItems.push({ id: item[this.itemKey], isChecked: false })
+      })
     }
   },
   created() {
-    this.items.forEach((item) => {
-      this.selectedItems.push({ id: item[this.itemKey], isChecked: false })
-    })
+    this.initSelectedItems()
   }
 })
 </script>

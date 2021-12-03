@@ -15,20 +15,23 @@ const sitesModule = {
     }
   },
   actions: {
-    async fetchSites({
-      commit
-    }: ActionContext<SitesModuleState, RootState>): Promise<void> {
-      const { data } = await axios.get('api/sites')
+    async fetchSites(
+      { commit }: ActionContext<SitesModuleState, RootState>,
+      reserve: boolean
+    ): Promise<void> {
+      const { data } = await axios.get('api/sites', {
+        params: { reserve }
+      })
       commit('setSites', data)
     },
     async addNewSite(
-      context: ActionContext<SitesModuleState, RootState>,
+      { commit }: ActionContext<SitesModuleState, RootState>,
       payload: Site
     ): Promise<void> {
       await axios.post('api/site', payload)
     },
     async deleteSite(
-      context: ActionContext<SitesModuleState, RootState>,
+      { commit }: ActionContext<SitesModuleState, RootState>,
       id: string
     ): Promise<void> {
       await axios.delete(`api/site/${id}`)

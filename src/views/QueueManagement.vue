@@ -36,25 +36,29 @@
         </div>
       </div>
     </div>
-    <ogyh-drop-down
-      class="mt-4"
-      :menus="sites"
-      :placeholder="
-        selectedSite.name ? selectedSite.name : 'Select site name...'
-      "
-      @item-selected="onMenuItemSelect"
-    >
-      <template #menu-item="{ menuItem }">
-        {{ menuItem.name }}
-      </template>
-    </ogyh-drop-down>
+    <div class="mt-4 flex items-center">
+      <p class="font-semibold">Selected Site:</p>
+      <ogyh-drop-down
+        class="ml-2"
+        :menus="sites"
+        :placeholder="
+          selectedSite.name ? selectedSite.name : 'Select site name...'
+        "
+        @item-selected="onMenuItemSelect"
+      >
+        <template #menu-item="{ menuItem }">
+          {{ menuItem.name }}
+        </template>
+      </ogyh-drop-down>
+    </div>
     <h1 class="text-red-500 font-semibold mt-2">{{ errorMessage }}</h1>
-    <div v-if="timeSlots.length" class="card mt-6 flex-grow">
+    <div v-if="timeSlots.length" class="card mt-2 flex-grow">
       <ogyh-table
+        ref="queueTable"
         :headers="tableHeaders"
         :items="mappedTimeSlots"
         itemKey="citizen_id"
-        :haveCheckbox="isAuth"
+        :haveCheckbox="isAuth && !!timeSlots.length"
         @selected-update="onSelectedIdChanged"
       >
         <template #table-head="{ selectedItemsCount }">
@@ -211,7 +215,7 @@ export default Vue.extend({
     }),
     async onUpdateQueueTimeSlots() {
       await this.updateQueueTimeSlots()
-      await this.fetchQueueTimeSlots()
+      await this.fetchQueueTimeSlots(this.selectedSite)
     },
     onCloseConfirmationDialog() {
       this.dialogData.isDialogOpened = false
@@ -250,19 +254,27 @@ export default Vue.extend({
           this.onCloseConfirmationDialog()
           break
       }
+      await this.onUpdateQueueTimeSlots()
+      this.$refs.queueTable.resetSelected()
     },
     async onMenuItemSelect(menu) {
-      if (menu.name === this.selectedSite) return
+      if (menu.id === this.selectedSite.id) return
+      this.fetchSiteTimeSlots(menu)
+      this.$refs.queueTable.resetSelected()
+    },
+    async onSendReportTaken(id) {
+      await this.sendReportTaken([id])
+      await this.onUpdateQueueTimeSlots()
+      this.$refs.queueTable.resetSelected()
+    },
+    async fetchSiteTimeSlots(site) {
       try {
-        await this.fetchQueueTimeSlots(menu)
+        await this.fetchQueueTimeSlots(site)
         this.errorMessage = ''
       } catch (e) {
         this.errorMessage =
           'Error occured during getting queue from selected site'
       }
-    },
-    async onSendReportTaken(id) {
-      await this.sendReportTaken([id])
     }
   },
   async created() {
@@ -278,7 +290,10 @@ export default Vue.extend({
         'Actions'
       ]
     }
-    await this.fetchSites()
+    await this.fetchSites(true)
+    if (this.sites.length) {
+      await this.fetchSiteTimeSlots(this.sites[0])
+    }
     this.cards = [
       { icon: 'hotel', text: 'Sites', count: this.sitesCount },
       {

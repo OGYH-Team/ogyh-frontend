@@ -1,6 +1,6 @@
 <template>
   <form
-    class="max-w-xs mx-auto flex flex-col pt-8"
+    class="w-full md:w-80 mx-auto flex flex-col pt-8"
     @submit.prevent="onSubmitSignInForm"
   >
     <h1 class="text-center font-extrabold text-xl text-purple-700">Sign-in</h1>
@@ -14,9 +14,9 @@
       :error="signInForm.errors.username"
       @input="() => clearError('username')"
     />
-    <span v-if="signInForm.errors.username" class="error-message">{{
-      signInForm.errors.username
-    }}</span>
+    <span v-if="signInForm.errors.username" class="error-message">
+      {{ signInForm.errors.username }}
+    </span>
     <label for="password" class="font-semibold mt-3">Password</label>
     <ogyh-text-field
       type="password"
@@ -31,6 +31,9 @@
       signInForm.errors.password
     }}</span>
     <button class="btn btn-accent mt-4 block" type="submit">Submit</button>
+    <p v-if="loginError.isError" class="error-message mt-4">
+      {{ loginError.message }}
+    </p>
   </form>
 </template>
 
@@ -54,6 +57,10 @@ export default Vue.extend({
           username: '',
           password: ''
         }
+      },
+      loginError: {
+        message: '',
+        isError: ''
       }
     }
   },
@@ -78,13 +85,20 @@ export default Vue.extend({
         return
       }
       try {
+        this.loginError = {
+          message: '',
+          isError: ''
+        }
         await this.signIn({
           username: this.signInForm.username,
           password: this.signInForm.password
         })
         this.$router.push('/')
       } catch (e) {
-        console.error(e)
+        this.loginError = {
+          message: 'Sign-in failed, please try again',
+          isError: true
+        }
       }
     }
   }

@@ -24,6 +24,11 @@ const routes: Array<RouteConfig> = [
     path: '/sign-in',
     name: 'Sign-in',
     component: () => import('../views/SignIn.vue')
+  },
+  {
+    path: '/walk-in',
+    name: 'Walk-in',
+    component: () => import('../views/WalkInReportForm.vue')
   }
 ]
 
@@ -35,7 +40,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   store.commit('app/setNavTitle', { title: to.name })
-  next()
+  if (to.path === '/sign-in' && store.state.app.isAuth) next('/queue')
+  else next()
 })
 
 router.afterEach((to, from) => {
