@@ -31,7 +31,7 @@
               text-green-400
             "
           >
-            {{ card.count || '0' }}
+            {{ cardValues[cardIndex] || '0' }}
           </span>
         </div>
       </div>
@@ -142,6 +142,7 @@ export default Vue.extend({
         { icon: 'users', text: 'Reservations' },
         { icon: 'hourglass-half', text: 'Round' }
       ],
+      cardValues: [],
       tableHeaders: [
         'Citizen Id',
         'Name',
@@ -271,6 +272,11 @@ export default Vue.extend({
       try {
         await this.fetchQueueTimeSlots(site)
         this.errorMessage = ''
+        this.cardValues = [
+          this.sites.length,
+          this.mappedTimeSlots.length,
+          Math.ceil(this.mappedTimeSlots.length / 10)
+        ]
       } catch (e) {
         this.errorMessage =
           'Error occured during getting queue from selected site'
@@ -294,15 +300,6 @@ export default Vue.extend({
     if (this.sites.length) {
       await this.fetchSiteTimeSlots(this.sites[0])
     }
-    this.cards = [
-      { icon: 'hotel', text: 'Sites', count: this.sitesCount },
-      {
-        icon: 'users',
-        text: 'Reservations',
-        count: this.mappedTimeSlots.length
-      },
-      { icon: 'hourglass-half', text: 'Round', count: 0 }
-    ]
   }
 })
 </script>

@@ -33,7 +33,7 @@
             :class="getRowColor(itemIndex)"
             class="font-light text-gray-600"
           >
-            <td v-if="haveCheckbox && selectedItems.length" class="text-center">
+            <td v-if="haveCheckbox" class="text-center">
               <ogyh-checkbox v-model="selectedItems[itemIndex].isChecked" />
             </td>
             <slot name="table-item" :item="item" :index="itemIndex"></slot>
